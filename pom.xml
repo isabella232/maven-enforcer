@@ -28,7 +28,7 @@
   </parent>
   <groupId>org.apache.maven.enforcer</groupId>
   <artifactId>enforcer</artifactId>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.0-atlassian-m01-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Maven Enforcer</name>
@@ -43,9 +43,9 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-enforcer.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-enforcer.git</developerConnection>
-    <url>https://github.com/apache/maven-enforcer/tree/${project.scm.tag}</url>
+    <connection>scm:git:https://github.com/atlassian/maven-enforcer</connection>
+    <developerConnection>scm:git:ssh://git@github.com/atlassian/maven-enforcer.git</developerConnection>
+    <url>https://github.com/atlassian/maven-enforcer</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -61,6 +61,14 @@
       <id>apache.website</id>
       <url>scm:svn:https://svn.apache.org/repos/asf/maven/website/components/${maven.site.path}</url>
     </site>
+    <repository>
+      <id>atlassian-3rdparty</id>
+      <url>https://packages.atlassian.com/maven/3rdparty</url>
+    </repository>
+    <snapshotRepository>
+      <id>atlassian-3rdparty-snapshot</id>
+      <url>https://packages.atlassian.com/maven/3rdparty-snapshot</url>
+    </snapshotRepository>
   </distributionManagement>
   <properties>
     <maven.version>3.3.9</maven.version>
@@ -143,7 +151,7 @@
       <dependency>
         <groupId>org.apache.maven.shared</groupId>
         <artifactId>maven-dependency-tree</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2-atlassian-m01</version>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
@@ -209,6 +217,33 @@
             <version>1.0-beta-9</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-license</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${user.dir}</directory>
+                  <includes>
+                    <include>LICENSE</include>
+                    <include>NOTICE</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
